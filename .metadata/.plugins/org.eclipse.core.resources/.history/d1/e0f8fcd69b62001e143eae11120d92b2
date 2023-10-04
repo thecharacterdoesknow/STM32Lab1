@@ -96,33 +96,36 @@ int main(void)
     	  	YELLOW1,
     	  	GREEN1,
     	    };
-    enum TrafficLightState currentState = RED1;
+    enum TrafficLightState currentState = GREEN1;
+    enum TrafficLightState nextState = currentState;
     while (1)
     {
   	  switch (currentState) {
   	  	    case GREEN1:
-  	  	    	HAL_GPIO_WritePin(GREEN_GPIO_Port, GREEN_Pin, GPIO_PIN_RESET);
-  	  	        HAL_GPIO_WritePin(YELLOW_GPIO_Port, YELLOW_Pin, GPIO_PIN_SET);
-  	  	        HAL_GPIO_WritePin(RED_GPIO_Port, RED_Pin, GPIO_PIN_SET);
-  	  	        HAL_Delay(3000);
-  	  	        currentState = RED1;
-  	  	    	break;
-  	  	    case YELLOW1:
   	  	    	HAL_GPIO_WritePin(GREEN_GPIO_Port, GREEN_Pin, GPIO_PIN_SET);
   	  	        HAL_GPIO_WritePin(YELLOW_GPIO_Port, YELLOW_Pin, GPIO_PIN_RESET);
-  	  	        HAL_GPIO_WritePin(RED_GPIO_Port, RED_Pin, GPIO_PIN_SET);
-  	       	    HAL_Delay(2000);
-  	  	    	currentState = GREEN1;
+  	  	        HAL_GPIO_WritePin(RED_GPIO_Port, RED_Pin, GPIO_PIN_RESET);
+  	  	    	HAL_Delay(3000);
+  	  	        nextState = YELLOW1;
   	  	    	break;
-  	  	    case RED1:
-  	  	    	HAL_GPIO_WritePin(GREEN_GPIO_Port, GREEN_Pin, GPIO_PIN_SET);
+  	  	    case YELLOW1:
+  	  	    	HAL_GPIO_WritePin(GREEN_GPIO_Port, GREEN_Pin, GPIO_PIN_RESET);
   	  	        HAL_GPIO_WritePin(YELLOW_GPIO_Port, YELLOW_Pin, GPIO_PIN_SET);
   	  	        HAL_GPIO_WritePin(RED_GPIO_Port, RED_Pin, GPIO_PIN_RESET);
-  	  	        HAL_Delay(5000);
-  	  	    	currentState = YELLOW1;
+  	  	    	HAL_Delay(2000);
+  	  	    	nextState = RED1;
   	  	    	break;
-  	  }
+  	  	    case RED1:
+  	  	    	HAL_GPIO_WritePin(GREEN_GPIO_Port, GREEN_Pin, GPIO_PIN_RESET);
+  	  	        HAL_GPIO_WritePin(YELLOW_GPIO_Port, YELLOW_Pin, GPIO_PIN_RESET);
+  	  	        HAL_GPIO_WritePin(RED_GPIO_Port, RED_Pin, GPIO_PIN_SET);
+  	  	    	HAL_Delay(5000);
+  	  	    	nextState = GREEN1;
+  	  	    	break;
+  	  	    	currentState = nextState;
     }
+  /* USER CODE END 3 */
+}
 }
 
 /**
